@@ -701,11 +701,6 @@ async function submitNewCourse() {
   }
 }
 
-// ===============================
-// 신규 강좌 개설 버튼 이벤트
-// ===============================
-document.getElementById('btnNewCourse').addEventListener('click', openNewCourseModal);
-
 // 초기화
 renderCourseList();
 

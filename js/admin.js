@@ -532,3 +532,26 @@ window.deleteGlobalNotice = deleteGlobalNotice;
 window.removeQuestion = removeQuestion;
 window.updateQuestionText = updateQuestionText;
 window.updateQuestionOptions = updateQuestionOptions;
+
+// ===============================
+// 사이드바 네비게이션
+// ===============================
+document.querySelectorAll('.menu-item').forEach(item => {
+  item.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    // 1. 메뉴 활성화 상태 변경
+    document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
+    item.classList.add('active');
+
+    // 2. 섹션 표시 전환
+    const targetId = item.getAttribute('data-target');
+    document.querySelectorAll('.page-section').forEach(section => {
+      if (section.id === targetId) {
+        section.classList.remove('hidden');
+      } else {
+        section.classList.add('hidden');
+      }
+    });
+  });
+});

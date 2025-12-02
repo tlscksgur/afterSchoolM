@@ -719,7 +719,7 @@ function bindGlobalEvents() {
     const card = e.target.closest('.course-card');
     if (card) {
       const id = card.getAttribute('data-id');
-      openCourseModal(id);
+      openCourseModal(parseInt(id, 10));
     }
   });
 

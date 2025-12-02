@@ -6,8 +6,8 @@
 // Railway 백엔드 서버 주소
 // 로컬 개발(127.0.0.1, localhost)일 때는 전체 주소 사용, 배포 시에는 프록시 사용(빈 문자열)
 const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-const API_BASE_URL = isLocal 
-  ? 'https://sdhsafterproject2025-production.up.railway.app' 
+const API_BASE_URL = isLocal
+  ? 'https://sdhsafterproject2025-production.up.railway.app'
   : '';
 
 // LocalStorage 키
@@ -75,8 +75,15 @@ async function apiRequest(endpoint, options = {}) {
 
     // 403 Forbidden - 권한 없음
     if (response.status === 403) {
-      alert('접근 권한이 없습니다.');
-      throw new Error('Forbidden');
+      let errorMessage = '접근 권한이 없습니다.';
+      try {
+        const errorData = await response.json();
+        if (errorData.message) errorMessage = errorData.message;
+      } catch (e) {
+        // JSON 파싱 실패 시 기본 메시지 사용
+      }
+      alert(errorMessage);
+      throw new Error(errorMessage);
     }
 
     // 404 Not Found
