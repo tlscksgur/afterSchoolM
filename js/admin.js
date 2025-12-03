@@ -197,7 +197,15 @@ async function renderUsers() {
   tbody.innerHTML = '<tr><td colspan="5">로딩 중...</td></tr>';
 
   const keyword = document.getElementById('userSearch').value.trim();
-  const roleFilter = document.getElementById('roleFilter').value;
+  const roleFilterValue = document.getElementById('roleFilter').value;
+
+  // 역할 매핑: 한글 -> 영문 코드
+  const roleMap = {
+    '학생': 'STUDENT',
+    '교사': 'TEACHER',
+    '관리자': 'ADMIN'
+  };
+  const roleFilter = roleMap[roleFilterValue] || roleFilterValue;
 
   const users = await loadUsers(roleFilter, keyword);
 
@@ -549,9 +557,100 @@ document.querySelectorAll('.menu-item').forEach(item => {
     document.querySelectorAll('.page-section').forEach(section => {
       if (section.id === targetId) {
         section.classList.remove('hidden');
+
+        // 강좌 운영 탭으로 전환 시 강제 배정 드롭다운 초기화
+        if (targetId === 'courses') {
+          loadForceEnrollmentData();
+        }
       } else {
         section.classList.add('hidden');
       }
     });
   });
+});
+
+// ===============================
+// 강제 배정/취소 기능
+// ===============================
+let selectedStudentId = null;
+let selectedCourseId = null;
+
+async function loadForceEnrollmentData() {
+  try {
+    // 학생 목록 로드
+    const students = await loadUsers('STUDENT', '');
+    const studentSelect = document.getElementById('assignStudentSelect');
+    studentSelect.innerHTML = '<option value="">학생을 선택하세요</option>';
+    students.forEach(s => {
+      const option = document.createElement('option');
+      option.value = s.userId;
+      option.textContent = `${s.name} (${s.email})`;
+      studentSelect.appendChild(option);
+    });
+
+    // 강좌 목록 로드
+    const courses = await loadAllCourses();
+    const courseSelect = document.getElementById('assignCourseSelect');
+    courseSelect.innerHTML = '<option value="">강좌를 선택하세요</option>';
+    courses.forEach(c => {
+      const option = document.createElement('option');
+      option.value = c.courseId;
+      option.textContent = `${c.courseName} (${c.teacherName || '교사'})`;
+      courseSelect.appendChild(option);
+    });
+  } catch (error) {
+    console.error('Failed to load force enrollment data:', error);
+  }
+}
+
+// 학생 선택 이벤트
+document.getElementById('assignStudentSelect').addEventListener('change', (e) => {
+  selectedStudentId = e.target.value;
+  const selectedOption = e.target.options[e.target.selectedIndex];
+  document.getElementById('chosenStudent').textContent = selectedOption.textContent || '-';
+});
+
+// 강좌 선택 이벤트
+document.getElementById('assignCourseSelect').addEventListener('change', (e) => {
+  selectedCourseId = e.target.value;
+  const selectedOption = e.target.options[e.target.selectedIndex];
+  document.getElementById('chosenCourse').textContent = selectedOption.textContent || '-';
+});
+
+// 강제 배정 버튼
+document.getElementById('btnForceEnroll').addEventListener('click', async () => {
+  if (!selectedStudentId || !selectedCourseId) {
+    alert('학생과 강좌를 모두 선택해주세요.');
+    return;
+  }
+
+  if (!confirm('선택한 학생을 강좌에 강제 배정하시겠습니까?')) {
+    return;
+  }
+
+  try {
+    await forceEnroll(selectedCourseId, selectedStudentId);
+    alert('강제 배정이 완료되었습니다.');
+  } catch (error) {
+    alert(error.message || '강제 배정에 실패했습니다.');
+  }
+});
+
+// 강제 취소 버튼
+document.getElementById('btnForceCancel').addEventListener('click', async () => {
+  if (!selectedStudentId || !selectedCourseId) {
+    alert('학생과 강좌를 모두 선택해주세요.');
+    return;
+  }
+
+  if (!confirm('선택한 학생의 수강을 강제 취소하시겠습니까?')) {
+    return;
+  }
+
+  try {
+    await forceUnenroll(selectedCourseId, selectedStudentId);
+    alert('강제 취소가 완료되었습니다.');
+  } catch (error) {
+    alert(error.message || '강제 취소에 실패했습니다.');
+  }
 });
