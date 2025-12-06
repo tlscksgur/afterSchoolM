@@ -19,7 +19,10 @@ public class AuthController {
     // 로그인
     @PostMapping("/login")
     public ResponseEntity<TokenResponseDto> login(@RequestBody LoginRequestDto requestDto) {
-        return ResponseEntity.ok(authService.login(requestDto));
+        TokenResponseDto response = authService.login(requestDto);
+        // Explicit Logging to debug Role issue
+        System.out.println("DEBUG LOGIN: User " + requestDto.getEmail() + " logged in with role: " + response.getRole());
+        return ResponseEntity.ok(response);
     }
 
     // ▼▼▼ 회원가입 (새로 추가됨) ▼▼▼
