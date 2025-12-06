@@ -22,6 +22,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (token != null && jwtTokenProvider.validateToken(token)) {
             Authentication auth = jwtTokenProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(auth);
+            // Debugging Log
+            System.out.println("DEBUG JWT: Authenticated User: " + auth.getName() + ", Roles: " + auth.getAuthorities());
+        } else {
+            System.out.println("DEBUG JWT: Token is null or invalid: " + token);
         }
         filterChain.doFilter(request, response);
     }
