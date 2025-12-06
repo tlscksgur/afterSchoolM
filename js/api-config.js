@@ -5,9 +5,9 @@
 
 // 환경에 따른 API 기본 URL 설정
 const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-const API_BASE_URL = isLocal
-  ? 'http://localhost:4000'
-  : 'https://sdhsafterproject2025-production.up.railway.app';
+const API_BASE_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+  ? 'http://localhost:4000' // Local development proxy
+  : 'https://afterschoolm-backend-production.up.railway.app'; // Production backend
 
 console.log('Environment:', isLocal ? 'Local (Proxy)' : 'Production');
 console.log('API_BASE_URL:', API_BASE_URL);
