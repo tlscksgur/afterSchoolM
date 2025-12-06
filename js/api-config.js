@@ -3,12 +3,10 @@
    Railway 백엔드 서버와 통신하기 위한 설정
 ===================================== */
 
-// Railway 백엔드 서버 주소
-// 로컬 개발(127.0.0.1, localhost)일 때는 전체 주소 사용, 배포 시에는 프록시 사용(빈 문자열)
-const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-const API_BASE_URL = isLocal
-  ? 'https://sdhsafterproject2025-production.up.railway.app'
-  : '';
+// 로컬 개발 환경(프록시 강제 사용)
+const API_BASE_URL = 'http://localhost:4000';
+console.log('Force using Proxy URL:', API_BASE_URL);
+// alert('프록시 강제 연결: ' + API_BASE_URL);
 
 // LocalStorage 키
 const AUTH_TOKEN_KEY = 'afterschool.authToken';
@@ -43,7 +41,7 @@ function setCurrentUser(role) {
    공통 API 요청 함수
 ------------------------------------- */
 async function apiRequest(endpoint, options = {}) {
-  const url = `${API_BASE_URL}${endpoint}`;
+  const url = `${API_BASE_URL}${endpoint} `;
   const token = getAuthToken();
 
   // 기본 헤더 설정
@@ -54,7 +52,7 @@ async function apiRequest(endpoint, options = {}) {
 
   // 인증 토큰이 있으면 헤더에 추가
   if (token) {
-    headers['Authorization'] = `Bearer ${token}`;
+    headers['Authorization'] = `Bearer ${token} `;
   }
 
   const config = {
