@@ -125,7 +125,8 @@ async function loadMyCourses() {
 async function enrollCourse(courseId) {
   try {
     await apiRequest(`/api/students/courses/${courseId}/enroll`, {
-      method: 'POST'
+      method: 'POST',
+      body: JSON.stringify({})
     });
     return true;
   } catch (error) {

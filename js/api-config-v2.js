@@ -3,11 +3,10 @@
    Railway 백엔드 서버와 통신하기 위한 설정
 ===================================== */
 
-// HTML에서 이미 정의되지 않았다면 기본값 설정
-if (typeof API_BASE_URL === 'undefined') {
-  var API_BASE_URL = 'http://localhost:4000';
-}
-console.log('Final API_BASE_URL:', API_BASE_URL);
+// 로컬 개발 환경(프록시 강제 사용)
+const API_BASE_URL = 'http://localhost:4000';
+console.log('Force using Proxy URL:', API_BASE_URL);
+alert('프록시 강제 연결됨! 주소: ' + API_BASE_URL);
 
 // LocalStorage 키
 const AUTH_TOKEN_KEY = 'afterschool.authToken';
@@ -42,7 +41,7 @@ function setCurrentUser(role) {
    공통 API 요청 함수
 ------------------------------------- */
 async function apiRequest(endpoint, options = {}) {
-  const url = `${API_BASE_URL}${endpoint}`;
+  const url = `${API_BASE_URL}${endpoint} `;
   const token = getAuthToken();
 
   // 기본 헤더 설정
@@ -53,7 +52,7 @@ async function apiRequest(endpoint, options = {}) {
 
   // 인증 토큰이 있으면 헤더에 추가
   if (token) {
-    headers['Authorization'] = `Bearer ${token}`;
+    headers['Authorization'] = `Bearer ${token} `;
   }
 
   const config = {

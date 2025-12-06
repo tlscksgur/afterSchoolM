@@ -134,51 +134,67 @@ function loginPage() {
 ------------------------------------- */
     loginForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-
-      const email = document.getElementById("login-id").value.trim();
-      const password = document.getElementById("login-password").value.trim();
-
-      if (!email || !password) {
-        alert("이메일과 비밀번호를 모두 입력해주세요.");
-        return;
-      }
-
       try {
-        // 로그인 버튼 비활성화
-        const submitBtn = loginForm.querySelector('button[type="submit"]');
+        console.log('Login button clicked! Starting login process...');
+
+        const emailInput = document.getElementById("login-id");
+        const passwordInput = document.getElementById("login-password");
+
+        if (!emailInput || !passwordInput) {
+          throw new Error('ID 또는 비밀번호 입력창을 찾을 수 없습니다.');
+        }
+
+        const email = emailInput.value.trim();
+        const password = passwordInput.value.trim();
+
+        const submitBtn = loginForm.querySelector("button[type='submit']");
         submitBtn.disabled = true;
         submitBtn.textContent = "로그인 중...";
 
         // 백엔드 API 호출
+        console.log('Sending login request to:', API_BASE_URL + '/api/auth/login');
         const response = await apiRequest('/api/auth/login', {
           method: 'POST',
           body: JSON.stringify({ email, password })
         });
+        console.log('Login response received:', response);
 
         // 응답에서 토큰과 역할 정보 추출
         const { token, role } = response;
 
-        if (!token || !role) {
-          throw new Error('로그인 응답 형식이 올바르지 않습니다.');
-        }
-
-        // 토큰과 역할 정보 저장
+        // 토큰과 사용자 정보 저장
         setAuthToken(token);
         setCurrentUser(role);
 
-        alert(`환영합니다! (${role})`);
+        // 역할에 따른 리다이렉션
+        // Role 문자열이 "ROLE_ADMIN" 등으로 올 수 있으므로 처리
+        const userRole = role.replace('ROLE_', '');
 
-        // 역할별 페이지 이동
-        redirectToRolePage(role);
+        alert('로그인 성공!');
 
+        switch (userRole) {
+          case 'ADMIN':
+            window.location.href = './admin.html';
+            break;
+          case 'TEACHER':
+            window.location.href = './teacher.html';
+            break;
+          case 'STUDENT':
+            window.location.href = './student.html';
+            break;
+          default:
+            alert('알 수 없는 사용자 역할입니다.');
+            submitBtn.disabled = false;
+            submitBtn.textContent = "로그인";
+        }
       } catch (error) {
-        console.error('Login error:', error);
-        alert(error.message || '로그인에 실패했습니다. 다시 시도해주세요.');
-
-        // 버튼 다시 활성화
-        const submitBtn = loginForm.querySelector('button[type="submit"]');
-        submitBtn.disabled = false;
-        submitBtn.textContent = "로그인";
+        console.error('Login Critical Error:', error);
+        alert('치명적인 오류 발생: ' + error.message);
+        const submitBtn = loginForm.querySelector("button[type='submit']");
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "로그인";
+        }
       }
     });
   });
