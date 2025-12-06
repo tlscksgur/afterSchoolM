@@ -3,11 +3,14 @@
    Railway 백엔드 서버와 통신하기 위한 설정
 ===================================== */
 
-// HTML에서 이미 정의되지 않았다면 기본값 설정
-if (typeof API_BASE_URL === 'undefined') {
-  var API_BASE_URL = 'http://localhost:4000';
-}
-console.log('Final API_BASE_URL:', API_BASE_URL);
+// 환경에 따른 API 기본 URL 설정
+const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+const API_BASE_URL = isLocal
+  ? 'http://localhost:4000'
+  : 'https://sdhsafterproject2025-production.up.railway.app';
+
+console.log('Environment:', isLocal ? 'Local (Proxy)' : 'Production');
+console.log('API_BASE_URL:', API_BASE_URL);
 
 // LocalStorage 키
 const AUTH_TOKEN_KEY = 'afterschool.authToken';
