@@ -16,6 +16,7 @@ public class CourseCreateDto {
     @NotBlank(message = "강좌명은 필수 입력 항목입니다.")
     private String courseName;
 
+    @NotBlank(message = "카테고리는 필수 입력 항목입니다.")
     private String category;
 
     private String description;
@@ -27,6 +28,7 @@ public class CourseCreateDto {
     @NotBlank(message = "수업 시간은 필수 입력 항목입니다.")
     private String courseTime;
 
+    @NotBlank(message = "강의실은 필수 입력 항목입니다.")
     private String location;
 
     @NotNull(message = "정원은 필수 입력 항목입니다.")

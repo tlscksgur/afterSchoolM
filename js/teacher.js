@@ -669,6 +669,10 @@ document.getElementById('btnNewCourse').addEventListener('click', () => {
             <input type="text" id="newCategory" class="input" placeholder="예: IT, 예체능, 어학" />
           </div>
           <div class="input-group">
+            <label>강의실 *</label>
+            <input type="text" id="newLocation" class="input" placeholder="예: 본관 301호" />
+          </div>
+          <div class="input-group">
             <label>수업 요일 *</label>
             <input type="text" id="newCourseDays" class="input" placeholder="예: 월,수" />
           </div>
@@ -700,13 +704,14 @@ function closeNewCourseModal() {
 async function submitNewCourse() {
   const courseName = document.getElementById('newCourseName').value.trim();
   const category = document.getElementById('newCategory').value.trim();
+  const newLocation = document.getElementById('newLocation').value.trim();
   const courseDays = document.getElementById('newCourseDays').value.trim();
   const courseTime = document.getElementById('newCourseTime').value.trim();
   const capacityValue = document.getElementById('newCapacity').value.trim();
   const description = document.getElementById('newDescription').value.trim();
 
   // 먼저 필수 항목이 모두 입력되었는지 확인
-  if (!courseName || !category || !courseDays || !courseTime || !capacityValue) {
+  if (!courseName || !category || !newLocation || !courseDays || !courseTime || !capacityValue) {
     alert('필수 항목을 모두 입력해주세요.');
     return;
   }
@@ -725,7 +730,7 @@ async function submitNewCourse() {
       description,
       courseDays,
       courseTime,
-      location: '',
+      location: newLocation,
       capacity
     });
 

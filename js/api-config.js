@@ -8,7 +8,6 @@ const isLocal = window.location.hostname === 'localhost' || window.location.host
 const API_BASE_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
   ? 'http://localhost:4000' // Local development proxy
   : 'https://sdhsafterproject2025-production.up.railway.app'; // Production backend
-
 console.log('Environment:', isLocal ? 'Local (Proxy)' : 'Production');
 console.log('API_BASE_URL:', API_BASE_URL);
 
