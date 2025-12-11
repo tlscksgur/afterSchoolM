@@ -351,14 +351,17 @@ async function openCourseModal(courseId) {
     const isFull = remainSeats(course) <= 0 && !applied;
 
     if (applied) {
-      btn.textContent = "?? ??";
+      btn.textContent = "수강 취소";
       btn.disabled = blocked;
     } else if (isFull) {
-      btn.textContent = "?? ??";
+      btn.textContent = "정원 마감";
+      btn.disabled = true;
+    } else if (blocked) {
+      btn.textContent = "신청 불가";
       btn.disabled = true;
     } else {
-      btn.textContent = "?? ??";
-      btn.disabled = blocked;
+      btn.textContent = "신청하기";
+      btn.disabled = false;
     }
   };
 
