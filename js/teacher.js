@@ -34,7 +34,7 @@ async function createCourse(courseData) {
 async function loadMyCourses() {
   try {
     // 올바른 엔드포인트로 교사 강좌 목록 조회
-    MY_COURSES = await apiRequest('/api/teachers/courses/my-courses');
+    MY_COURSES = await apiRequest('/api/teachers/courses/my');
     console.log(`Loaded ${MY_COURSES.length} courses from the server.`);
     return MY_COURSES;
   } catch (error) {
