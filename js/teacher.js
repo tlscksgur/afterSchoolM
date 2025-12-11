@@ -402,7 +402,7 @@ function renderAttendanceGrid(students, attendanceData) {
       <tbody>
         ${students.map(s => {
     const attendance = attendanceData.find(a => a.studentId === s.studentId); // studentId로 매칭 시도
-    const status = attendance ? attendance.status : 'PRESENT';
+    const status = (attendance && attendance.status) ? attendance.status : 'PRESENT';
     const enrollmentId = getEnrollmentId(s, attendance);
 
     return `
