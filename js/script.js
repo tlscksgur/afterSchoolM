@@ -362,9 +362,11 @@ async function openCourseModal(courseId) {
     }
   };
 
+  // ?? ?? ??? ???? ??
   applyToUI(c);
 
-  if (!c.room || c.room === '??') {
+  // ?? ?? ??? ?? ??? ???/??/?? ?? ??
+  try {
     const detail = await getCourseDetail(courseId);
     if (detail) {
       c.room = detail.room || detail.location || c.room;
@@ -378,6 +380,8 @@ async function openCourseModal(courseId) {
       c.canEnroll = detail.canEnroll ?? c.canEnroll;
       applyToUI(c);
     }
+  } catch (e) {
+    console.error('Failed to load course detail', e);
   }
 
   $("#courseModal").classList.remove("hidden");
