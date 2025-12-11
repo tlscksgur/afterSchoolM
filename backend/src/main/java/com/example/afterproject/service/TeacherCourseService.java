@@ -73,7 +73,12 @@ public class TeacherCourseService {
         }
         List<CourseEntity> courses = courseRepository.findByTeacher_UserId(teacherId);
         return courses.stream()
-                .map(CourseDto::new)
+                .map(course -> {
+                    CourseDto dto = new CourseDto(course);
+                    long count = enrollmentRepository.countByCourse_CourseIdAndStatus(course.getCourseId(), "ACTIVE");
+                    dto.setCurrentEnrollmentCount(count);
+                    return dto;
+                })
                 .collect(Collectors.toList());
     }
 

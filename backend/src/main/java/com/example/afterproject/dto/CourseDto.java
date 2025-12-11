@@ -3,10 +3,12 @@ package com.example.afterproject.dto;
 import com.example.afterproject.entity.CourseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.Instant;
 
 @Getter
+@Setter
 @NoArgsConstructor
 public class CourseDto {
     private Long courseId;
