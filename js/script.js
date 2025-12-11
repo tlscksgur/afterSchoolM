@@ -324,8 +324,6 @@ async function renderAllCourses() {
 // ===============================
 let currentCourse = null;
 
-let currentCourse = null;
-
 async function openCourseModal(courseId) {
   const c = COURSES.find(c => c.id === courseId);
   console.log('Course found:', c);
