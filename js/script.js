@@ -324,44 +324,62 @@ async function renderAllCourses() {
 // ===============================
 let currentCourse = null;
 
-function openCourseModal(courseId) {
+let currentCourse = null;
+
+async function openCourseModal(courseId) {
   const c = COURSES.find(c => c.id === courseId);
   console.log('Course found:', c);
   if (!c) return;
   currentCourse = c;
 
-  // 채우기
-  $("#modalImg").src = c.img;
-  $("#courseModalTitle").textContent = c.name;
-  $("#courseDesc").textContent = c.desc;
-  $("#courseCategory").textContent = `${c.category}${c.tags.length ? " · " + c.tags.join(", ") : ""}`;
-  $("#courseTeacher").textContent = c.teacher;
-  $("#courseSchedule").textContent = `${c.days.join(", ")} ${c.time}`;
-  $("#courseRoom").textContent = c.room;
-  $("#courseEnrolled").textContent = c.enrolled;
-  $("#courseCapacity").textContent = c.capacity;
+  const applyToUI = (course) => {
+    $("#modalImg").src = course.img;
+    $("#courseModalTitle").textContent = course.name;
+    $("#courseDesc").textContent = course.desc;
+    $("#courseCategory").textContent = `${course.category}${course.tags.length ? " ? " + course.tags.join(", ") : ""}`;
+    $("#courseTeacher").textContent = course.teacher;
+    $("#courseSchedule").textContent = `${course.days.join(", ")} ${course.time}`;
+    $("#courseRoom").textContent = course.room || '??';
+    $("#courseEnrolled").textContent = course.enrolled;
+    $("#courseCapacity").textContent = course.capacity;
 
-  const btn = $("#btnToggleApply");
-  const warning = $("#attendanceWarning");
+    const btn = $("#btnToggleApply");
+    const warning = $("#attendanceWarning");
 
-  // API에서 제공하는 canEnroll 필드로 신청 가능 여부 판단
-  const blocked = c.canEnroll === false;
-  warning.classList.toggle("hidden", !blocked);
+    const blocked = course.canEnroll === false;
+    warning.classList.toggle("hidden", !blocked);
 
-  const applied = c.isEnrolled;
+    const applied = course.isEnrolled;
+    const isFull = remainSeats(course) <= 0 && !applied;
 
-  // 정원 마감 체크
-  const isFull = remainSeats(c) <= 0 && !applied;
+    if (applied) {
+      btn.textContent = "?? ??";
+      btn.disabled = blocked;
+    } else if (isFull) {
+      btn.textContent = "?? ??";
+      btn.disabled = true;
+    } else {
+      btn.textContent = "?? ??";
+      btn.disabled = blocked;
+    }
+  };
 
-  if (applied) {
-    btn.textContent = "수강 취소";
-    btn.disabled = blocked;
-  } else if (isFull) {
-    btn.textContent = "정원 마감";
-    btn.disabled = true;
-  } else {
-    btn.textContent = "수강 신청";
-    btn.disabled = blocked;
+  applyToUI(c);
+
+  if (!c.room || c.room === '??') {
+    const detail = await getCourseDetail(courseId);
+    if (detail) {
+      c.room = detail.room || detail.location || c.room;
+      c.time = detail.time || detail.courseTime || c.time;
+      c.days = detail.days && detail.days.length ? detail.days : c.days;
+      c.desc = detail.desc || detail.description || c.desc;
+      c.teacher = detail.teacher || detail.teacherName || c.teacher;
+      c.category = detail.category || c.category;
+      c.capacity = detail.capacity || c.capacity;
+      c.enrolled = detail.enrolled ?? c.enrolled;
+      c.canEnroll = detail.canEnroll ?? c.canEnroll;
+      applyToUI(c);
+    }
   }
 
   $("#courseModal").classList.remove("hidden");
