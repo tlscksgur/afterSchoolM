@@ -29,10 +29,10 @@
           </div>
         </div>
         <nav class="menu">
-          <a href="#" data-target="dashboard" class="active">
+          <a href="#" data-target="dashboard">
             <span class="material-symbols-outlined">dashboard</span><span>대시보드</span>
           </a>
-          <a href="#" data-target="allCourses">
+          <a href="#" data-target="allCourses" class="active">
             <span class="material-symbols-outlined">list</span><span>전체 강좌</span>
           </a>
           <a href="#" data-target="apply">
@@ -61,7 +61,7 @@
       </header>
 
       <!-- 🟢 대시보드: 추천/인기 강좌 일부 -->
-      <section class="page-section" id="dashboard">
+      <section class="page-section hidden" id="dashboard">
         <div class="section-head">
           <h2>추천 강좌</h2>
           <div class="hint">인기순 상위 강좌를 보여줘요</div>
@@ -70,7 +70,7 @@
       </section>
 
       <!-- 🟡 전체 강좌 -->
-      <section class="page-section hidden" id="allCourses">
+      <section class="page-section" id="allCourses">
         <div class="section-head">
           <h2>전체 강좌</h2>
         </div>

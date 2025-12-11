@@ -445,6 +445,7 @@ document.getElementById('btnSurveyReset').addEventListener('click', () => {
 // 초기 렌더링
 // ===============================
 renderUsers();
+renderAllCourses();
 
 // ===============================
 // 전역 함수 노출 (onclick 핸들러용)
