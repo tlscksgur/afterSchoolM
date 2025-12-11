@@ -139,9 +139,40 @@ body {
 }
 
 .header h1 {
-  margin: 0;
-  font-size: 1.4rem;
-  font-weight: 800
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--text);
+}
+.user-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  min-width: 160px;
+  justify-content: flex-end;
+  text-align: right;
+}
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--primary-weak);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: var(--primary);
+}
+.user-chip strong {
+  display: block;
+  color: var(--text);
+}
+.user-chip small {
+  color: var(--muted);
 }
 
 .admin-profile {

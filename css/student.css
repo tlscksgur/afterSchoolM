@@ -169,12 +169,12 @@ body {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: #c7f9cc;
+  background: var(--brand-blue-light);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  color: #0f5132;
+  color: var(--brand-blue-dark);
 }
 .user-chip strong {
   display: block;
