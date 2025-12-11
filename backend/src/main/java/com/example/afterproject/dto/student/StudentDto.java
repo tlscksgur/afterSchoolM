@@ -17,6 +17,7 @@ public class StudentDto {
         private final String teacherName;
         private final String courseDays;
         private final String courseTime;
+        private final String location;
         private final long currentEnrollment;
         private final int capacity;
         private final boolean isEnrolled; // 본인 수강 신청 여부
@@ -27,6 +28,7 @@ public class StudentDto {
             this.teacherName = course.getTeacher().getName();
             this.courseDays = course.getCourseDays();
             this.courseTime = course.getCourseTime();
+            this.location = course.getLocation();
             this.currentEnrollment = currentEnrollment;
             this.capacity = course.getCapacity();
             this.isEnrolled = isEnrolled;
