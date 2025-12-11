@@ -537,18 +537,24 @@ function drawBarChart(canvas, { present, absent, late }) {
   const vals = [present, absent, late];
   const labels = ["출석", "결석", "지각"];
   const max = Math.max(1, ...vals);
-  const barW = Math.floor(W / (vals.length * 2));
-  const gap = barW;
+  const marginLeft = 30;
+  const marginRight = 10;
+  const avail = Math.max(30, W - marginLeft - marginRight);
+  const barW = Math.max(12, Math.floor(avail / (vals.length * 1.8)));
+  const totalBarsWidth = vals.length * barW;
+  const remaining = Math.max(0, avail - totalBarsWidth);
+  const gap = Math.floor(remaining / (vals.length + 1));
+  const startX = marginLeft + gap;
 
   // 축
   ctx.strokeStyle = "#e5e7eb";
   ctx.beginPath();
-  ctx.moveTo(30, 10); ctx.lineTo(30, H - 25); ctx.lineTo(W - 10, H - 25);
+  ctx.moveTo(marginLeft, 10); ctx.lineTo(marginLeft, H - 25); ctx.lineTo(W - marginRight, H - 25);
   ctx.stroke();
 
   // 막대
   for (let i = 0; i < vals.length; i++) {
-    const x = 30 + gap + i * (barW + gap);
+    const x = startX + i * (barW + gap);
     const h = Math.round((H - 45) * (vals[i] / max));
     const y = (H - 25) - h;
     ctx.fillStyle = "#3B82F6";
