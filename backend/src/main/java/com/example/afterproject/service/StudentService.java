@@ -136,7 +136,11 @@ public class StudentService {
 
         return Stream.concat(courseSurveys.stream(), globalSurveys.stream())
                 .distinct()
-                .filter(survey -> !survey.getStartDate().isAfter(today) && !survey.getEndDate().isBefore(today))
+                .filter(survey -> {
+                    LocalDate start = survey.getStartDate() != null ? survey.getStartDate() : LocalDate.MIN;
+                    LocalDate end = survey.getEndDate() != null ? survey.getEndDate() : LocalDate.MAX;
+                    return !start.isAfter(today) && !end.isBefore(today);
+                })
                 .map(survey -> {
                     boolean isSubmitted = surveyResponseRepository.existsByQuestion_Survey_SurveyIdAndRespondent_UserId(survey.getSurveyId(), studentId);
                     return new SurveyListDto(survey, isSubmitted);
