@@ -520,7 +520,17 @@ async function renderMyApplies() {
 
 function drawBarChart(canvas, { present, absent, late }) {
   const ctx = canvas.getContext("2d");
-  const W = canvas.width, H = canvas.height;
+
+  // 반응형 렌더링: CSS 크기 기준으로 캔버스 크기 설정
+  const dpr = window.devicePixelRatio || 1;
+  const logicalWidth = canvas.clientWidth || 260;
+  const logicalHeight = canvas.clientHeight || 180;
+  canvas.width = logicalWidth * dpr;
+  canvas.height = logicalHeight * dpr;
+  ctx.scale(dpr, dpr);
+
+  const W = logicalWidth;
+  const H = logicalHeight;
   ctx.clearRect(0, 0, W, H);
 
   // 값
@@ -575,7 +585,7 @@ async function renderAttendance() {
           <span class="small">출석률 ${rate}%</span>
         </div>
         <div style="padding: 12px 16px;">
-          <canvas id="attChart_${idx}" width="260" height="140" aria-label="출석 통계"></canvas>
+          <canvas id="attChart_${idx}" class="att-chart" aria-label="출석 통계"></canvas>
           <div class="small" style="display:flex; gap:12px; margin-top:6px;">
             <span>출석 ${present}</span>
             <span>결석 ${absent}</span>
