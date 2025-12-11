@@ -153,6 +153,25 @@ body {
   color: var(--text-primary);
   font-weight: 800
 }
+.user-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  background: #fff;
+  border: 1px solid var(--border-primary);
+  border-radius: 10px;
+  min-width: 160px;
+  justify-content: flex-end;
+  text-align: right;
+}
+.user-chip strong {
+  display: block;
+  color: var(--text-primary);
+}
+.user-chip small {
+  color: var(--text-tertiary);
+}
 
 .search-box {
   position: relative;
