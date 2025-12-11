@@ -1,9 +1,11 @@
 package com.example.afterproject.controller;
 
 import com.example.afterproject.dto.admin.*;
+import com.example.afterproject.security.CustomUserDetails;
 import com.example.afterproject.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -138,9 +140,9 @@ public class AdminController {
      * @return 생성된 공지 정보
      */
     @PostMapping("/notices")
-    public ResponseEntity<NoticeResponseDto> createGlobalNotice(@RequestBody NoticeCreateDto noticeCreateDto) {
-        // TODO: 현재 로그인한 관리자 ID 가져오기
-        Long adminId = 1L;
+    public ResponseEntity<NoticeResponseDto> createGlobalNotice(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                                               @RequestBody NoticeCreateDto noticeCreateDto) {
+        Long adminId = userDetails.getUserId();
         NoticeResponseDto notice = adminService.createGlobalNotice(adminId, noticeCreateDto);
         return ResponseEntity.status(201).body(notice);
     }
@@ -151,9 +153,9 @@ public class AdminController {
      * @return 생성된 설문 정보
      */
     @PostMapping("/surveys")
-    public ResponseEntity<SurveyResponseDto> createGlobalSurvey(@RequestBody SurveyCreateDto surveyCreateDto) {
-        // TODO: 현재 로그인한 관리자 ID 가져오기
-        Long adminId = 1L;
+    public ResponseEntity<SurveyResponseDto> createGlobalSurvey(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                                                @RequestBody SurveyCreateDto surveyCreateDto) {
+        Long adminId = userDetails.getUserId();
         SurveyResponseDto survey = adminService.createGlobalSurvey(adminId, surveyCreateDto);
         return ResponseEntity.status(201).body(survey);
     }

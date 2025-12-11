@@ -10,6 +10,7 @@
 const currentUser = getCurrentUser();
 let MY_COURSES = []; // 내 담당 강좌 목록
 let currentCourseId = null; // 현재 관리 중인 강좌 ID
+let surveyQuestions = []; // ?? ?? ??? ??
 
 // ===============================
 // API 호출 함수들
@@ -320,6 +321,7 @@ async function openCourseManagementModal(course) {
 function closeCourseManagementModal() {
   document.getElementById('modalRoot').innerHTML = '';
   currentCourseId = null;
+  surveyQuestions = [];
 }
 
 // 수강생 목록 로드
@@ -400,7 +402,7 @@ function renderAttendanceGrid(students, attendanceData) {
       <tbody>
         ${students.map(s => {
     const attendance = attendanceData.find(a => a.studentId === s.studentId); // studentId로 매칭 시도
-    const status = attendance ? attendance.status : 'NONE';
+    const status = attendance ? attendance.status : 'PRESENT';
     const enrollmentId = getEnrollmentId(s, attendance);
 
     return `
@@ -551,6 +553,153 @@ async function deleteNoticeById(noticeId) {
     await loadNoticeList();
   } catch (error) {
     alert(error.message || '공지 삭제에 실패했습니다.');
+  }
+}
+
+// ===============================
+// 설문 관리
+// ===============================
+async function loadSurveyList() {
+  const container = document.getElementById('surveyListContainer');
+  if (!container || currentCourseId === null) return;
+
+  container.innerHTML = '로딩 중...';
+
+  try {
+    const surveys = await getSurveys(currentCourseId);
+    if (!surveys || surveys.length === 0) {
+      container.innerHTML = '<div class="tip">등록된 설문이 없습니다.</div>';
+      return;
+    }
+
+    container.innerHTML = surveys.map(s => {
+      const period = [s.startDate, s.endDate].filter(Boolean).join(' ~ ');
+      return `
+        <div class="notice-item">
+          <h4>${s.title}</h4>
+          <p class="small">${period || ''}</p>
+        </div>
+      `;
+    }).join('');
+  } catch (error) {
+    console.error('Failed to load surveys:', error);
+    container.innerHTML = '<div class="tip">설문을 불러오지 못했습니다.</div>';
+  }
+}
+
+function renderTeacherSurveyQuestions() {
+  const wrap = document.getElementById('teacherQuestionWrap');
+  if (!wrap) return;
+
+  if (surveyQuestions.length === 0) {
+    wrap.innerHTML = '<div class="tip">질문을 추가해주세요.</div>';
+    return;
+  }
+
+  wrap.innerHTML = surveyQuestions.map((q, idx) => `
+    <div class="q-item">
+      <div class="q-header">
+        <strong>질문 ${idx + 1} (${q.type === 'TEXT' ? '주관식' : '객관식'})</strong>
+        <button class="ghost" onclick="removeSurveyQuestion(${q.id})">삭제</button>
+      </div>
+      <input type="text" class="input" placeholder="질문 내용" value="${q.text}" onchange="updateSurveyQuestionText(${q.id}, this.value)" />
+      ${q.type === 'SINGLE_CHOICE' ? `
+        <input type="text" class="input" placeholder="선택지 (쉼표로 구분)" value="${q.options || ''}" onchange="updateSurveyQuestionOptions(${q.id}, this.value)" />
+      ` : ''}
+    </div>
+  `).join('');
+}
+
+function removeSurveyQuestion(id) {
+  surveyQuestions = surveyQuestions.filter(q => q.id !== id);
+  renderTeacherSurveyQuestions();
+}
+function updateSurveyQuestionText(id, text) {
+  const q = surveyQuestions.find(q => q.id === id);
+  if (q) q.text = text;
+}
+function updateSurveyQuestionOptions(id, options) {
+  const q = surveyQuestions.find(q => q.id === id);
+  if (q) q.options = options;
+}
+
+function openSurveyForm() {
+  const formWrap = document.getElementById('surveyFormContainer');
+  if (!formWrap) return;
+
+  surveyQuestions = [];
+  formWrap.innerHTML = `
+    <div class="notice-form">
+      <h4>새 설문 작성</h4>
+      <input type="text" id="teacherSurveyTitle" class="input" placeholder="설문 제목" />
+      <div class="toolbar-row">
+        <label>시작일 <input type="date" id="teacherSurveyStart" class="input" /></label>
+        <label>종료일 <input type="date" id="teacherSurveyEnd" class="input" /></label>
+      </div>
+      <div id="teacherQuestionWrap" class="q-wrap"></div>
+      <div class="flex gap">
+        <button id="btnTeacherAddTextQ" class="ghost" type="button">주관식 추가</button>
+        <button id="btnTeacherAddChoiceQ" class="ghost" type="button">객관식 추가</button>
+      </div>
+      <div class="form-actions">
+        <button id="btnTeacherSurveySave" class="primary" type="button">저장</button>
+        <button id="btnTeacherSurveyCancel" class="ghost" type="button">취소</button>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('btnTeacherAddTextQ')?.addEventListener('click', () => {
+    surveyQuestions.push({ id: Date.now(), type: 'TEXT', text: '', options: null });
+    renderTeacherSurveyQuestions();
+  });
+  document.getElementById('btnTeacherAddChoiceQ')?.addEventListener('click', () => {
+    surveyQuestions.push({ id: Date.now(), type: 'SINGLE_CHOICE', text: '', options: '' });
+    renderTeacherSurveyQuestions();
+  });
+  document.getElementById('btnTeacherSurveySave')?.addEventListener('click', saveSurveyForm);
+  document.getElementById('btnTeacherSurveyCancel')?.addEventListener('click', cancelSurveyForm);
+
+  renderTeacherSurveyQuestions();
+}
+
+function cancelSurveyForm() {
+  surveyQuestions = [];
+  const formWrap = document.getElementById('surveyFormContainer');
+  if (formWrap) formWrap.innerHTML = '';
+}
+
+async function saveSurveyForm() {
+  const title = document.getElementById('teacherSurveyTitle')?.value.trim();
+  const start = document.getElementById('teacherSurveyStart')?.value;
+  const end = document.getElementById('teacherSurveyEnd')?.value;
+
+  if (!title || !start || !end) {
+    alert('제목과 기간을 입력해주세요.');
+    return;
+  }
+  if (surveyQuestions.length === 0) {
+    alert('질문을 한 개 이상 추가해주세요.');
+    return;
+  }
+
+  const questions = surveyQuestions.map(q => ({
+    questionText: q.text,
+    questionType: q.type,
+    options: q.options
+  }));
+
+  try {
+    await createSurvey(currentCourseId, {
+      title,
+      startDate: start,
+      endDate: end,
+      questions
+    });
+    alert('설문이 생성되었습니다.');
+    cancelSurveyForm();
+    await loadSurveyList();
+  } catch (error) {
+    alert(error.message || '설문 생성에 실패했습니다.');
   }
 }
 
@@ -757,3 +906,7 @@ window.closeCourseEditModal = closeCourseEditModal;
 window.saveCourseEdit = saveCourseEdit;
 window.closeNewCourseModal = closeNewCourseModal;
 window.submitNewCourse = submitNewCourse;
+window.openSurveyForm = openSurveyForm;
+window.removeSurveyQuestion = removeSurveyQuestion;
+window.updateSurveyQuestionText = updateSurveyQuestionText;
+window.updateSurveyQuestionOptions = updateSurveyQuestionOptions;

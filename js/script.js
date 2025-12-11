@@ -644,26 +644,33 @@ async function openSurveyForm(surveyId) {
   }
 
   const qHTML = sv.questions.map(q => {
-    // questionId를 q.id로 사용
     const questionId = q.questionId || q.id;
-    if (q.type === "single" || q.type === "SINGLE_CHOICE") {
+    const rawType = (q.questionType || q.type || '').toUpperCase();
+    const isChoice = ['SINGLE_CHOICE', 'MULTIPLE_CHOICE', 'OBJECTIVE', 'CHOICE', 'SINGLE'].includes(rawType);
+
+    const rawOptions = Array.isArray(q.options) ? q.options : (q.options || '');
+    const optionsArr = Array.isArray(rawOptions)
+      ? rawOptions
+      : rawOptions.split(/[\,\n]/).map(op => op.trim()).filter(Boolean);
+
+    if (isChoice && optionsArr.length > 0) {
       return `
         <div class="q">
           <h4>${q.text || q.questionText}</h4>
           <div class="opts">
-            ${(q.options || []).map((op, i) => `
+            ${optionsArr.map((op) => `
               <label>
                 <input type="radio" name="${questionId}" value="${op}"> ${op}
               </label>`).join("")}
           </div>
         </div>`;
-    } else {
-      return `
-        <div class="q">
-          <h4>${q.text || q.questionText}</h4>
-          <textarea class="input" rows="4" data-qid="${questionId}" placeholder="답변을 입력하세요"></textarea>
-        </div>`;
     }
+
+    return `
+      <div class="q">
+        <h4>${q.text || q.questionText}</h4>
+        <textarea class="input" rows="4" data-qid="${questionId}" placeholder="???? ?????"></textarea>
+      </div>`;
   }).join("");
 
   wrap.innerHTML = `

@@ -30,7 +30,7 @@ public class AttendanceDto {
     public AttendanceDto(EnrollmentEntity enrollment, LocalDate classDate) {
         this.attendanceId = null;
         this.classDate = classDate;
-        this.status = "출석"; // 아직 기록되지 않은 상태
+        this.status = "PRESENT"; // ??? ??
         this.enrollmentId = enrollment.getEnrollmentId();
         UserEntity student = enrollment.getStudent();
         this.studentId = student.getUserId();

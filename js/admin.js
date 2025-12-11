@@ -2,7 +2,7 @@
 // 페이지 접근 권한 확인
 // ===============================
 // 관리자만 접근 가능
-// checkAuth('관리자');
+checkAuth('관리자');
 
 // ===============================
 // 전역 상태
@@ -344,13 +344,13 @@ let surveyQuestions = [];
 
 document.getElementById('btnAddTextQ').addEventListener('click', () => {
   const qId = Date.now();
-  surveyQuestions.push({ id: qId, type: 'SUBJECTIVE', text: '', options: null });
+  surveyQuestions.push({ id: qId, type: 'TEXT', text: '', options: null });
   renderQuestions();
 });
 
 document.getElementById('btnAddSingleQ').addEventListener('click', () => {
   const qId = Date.now();
-  surveyQuestions.push({ id: qId, type: 'OBJECTIVE', text: '', options: '' });
+  surveyQuestions.push({ id: qId, type: 'SINGLE_CHOICE', text: '', options: '' });
   renderQuestions();
 });
 
@@ -360,11 +360,11 @@ function renderQuestions() {
   wrap.innerHTML = surveyQuestions.map((q, idx) => `
     <div class="q-item">
       <div class="q-header">
-        <strong>질문 ${idx + 1} (${q.type === 'SUBJECTIVE' ? '주관식' : '객관식'})</strong>
+        <strong>질문 ${idx + 1} (${q.type === 'TEXT' ? '주관식' : '객관식'})</strong>
         <button class="ghost" onclick="removeQuestion(${q.id})">삭제</button>
       </div>
       <input type="text" class="input" placeholder="질문 내용" value="${q.text}" onchange="updateQuestionText(${q.id}, this.value)" />
-      ${q.type === 'OBJECTIVE' ? `
+      ${q.type === 'SINGLE_CHOICE' ? `
         <input type="text" class="input" placeholder="선택지 (쉼표로 구분, 예: 예,아니오)" value="${q.options || ''}" onchange="updateQuestionOptions(${q.id}, this.value)" />
       ` : ''}
     </div>
