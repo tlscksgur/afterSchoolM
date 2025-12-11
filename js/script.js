@@ -96,7 +96,7 @@ async function loadMyCourses() {
 
     // API 응답 형식: { courses: [...], overallAttendanceRate: 85.5 }
     MY_COURSES = data.courses.map(course => ({
-      id: course.courseId || 0,
+      id: course.courseId || course.id || 0,
       name: course.courseName,
       teacher: course.teacherName,
       attendanceRate: course.attendanceRate || 0,
@@ -563,19 +563,39 @@ async function renderAttendance() {
     return;
   }
 
-  wrap.innerHTML = MY_COURSES.map(c => {
+  wrap.innerHTML = MY_COURSES.map((c, idx) => {
     const rate = Math.round(c.attendanceRate);
+    const present = c.presentCount || 0;
+    const absent = c.absentCount || 0;
+    const late = c.lateCount || 0;
     return `
       <div class="att-card">
         <div class="att-head">
           <h4>${c.name}</h4>
           <span class="small">출석률 ${rate}%</span>
         </div>
-        <div style="padding: 20px; text-align: center; color: #6B7280;">
-          출석 상세 데이터는 API에서 제공되지 않습니다.
+        <div style="padding: 12px 16px;">
+          <canvas id="attChart_${idx}" width="260" height="140" aria-label="출석 통계"></canvas>
+          <div class="small" style="display:flex; gap:12px; margin-top:6px;">
+            <span>출석 ${present}</span>
+            <span>결석 ${absent}</span>
+            <span>지각 ${late}</span>
+          </div>
         </div>
       </div>`;
   }).join("");
+
+  // 차트 렌더링
+  MY_COURSES.forEach((c, idx) => {
+    const canvas = document.getElementById(`attChart_${idx}`);
+    if (canvas) {
+      drawBarChart(canvas, {
+        present: c.presentCount || 0,
+        absent: c.absentCount || 0,
+        late: c.lateCount || 0
+      });
+    }
+  });
 }
 
 // ===============================
@@ -882,4 +902,3 @@ async function init() {
 
 bindGlobalEvents();
 init();
-

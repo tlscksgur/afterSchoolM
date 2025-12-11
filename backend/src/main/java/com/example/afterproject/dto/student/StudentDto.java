@@ -84,6 +84,7 @@ public class StudentDto {
 
         @Getter
         public static class MyCourseDto {
+            private final Long courseId;
             private final String courseName;
             private final String teacherName;
             private final String status;
@@ -93,6 +94,7 @@ public class StudentDto {
             private final long lateCount;
 
             public MyCourseDto(EnrollmentEntity enrollment, List<String> attendanceRecords) {
+                this.courseId = enrollment.getCourse().getCourseId();
                 this.courseName = enrollment.getCourse().getCourseName();
                 this.teacherName = enrollment.getCourse().getTeacher().getName();
                 this.status = enrollment.getStatus();
