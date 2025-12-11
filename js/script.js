@@ -941,3 +941,15 @@ async function init() {
 
 bindGlobalEvents();
 init();
+
+// 사용자 정보 표시 (이름/이메일)
+(function showStudentProfile() {
+  const user = getCurrentUser();
+  if (!user) return;
+  if (document.getElementById('studentName')) {
+    document.getElementById('studentName').textContent = user.name || '학생';
+  }
+  if (document.getElementById('studentEmail')) {
+    document.getElementById('studentEmail').textContent = user.email || '';
+  }
+})();

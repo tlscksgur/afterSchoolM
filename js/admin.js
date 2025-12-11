@@ -8,6 +8,10 @@ checkAuth('관리자');
 // 전역 상태
 // ===============================
 const currentUser = getCurrentUser();
+if (currentUser) {
+  document.getElementById('adminName').textContent = currentUser.name || '관리자';
+  document.getElementById('adminEmail').textContent = currentUser.email || '';
+}
 
 // ===============================
 // API 호출 함수들
