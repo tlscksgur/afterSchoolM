@@ -157,17 +157,15 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 10px;
+  padding: 6px 10px;
   background: #fff;
   border: 1px solid var(--border-primary);
   border-radius: 10px;
-  min-width: 160px;
-  justify-content: flex-end;
-  text-align: right;
+  min-width: 0;
 }
 .user-avatar {
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background: var(--brand-blue-light);
   display: inline-flex;
