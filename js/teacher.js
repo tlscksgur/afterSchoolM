@@ -276,17 +276,7 @@ async function openCourseManagementModal(course) {
             <div id="attendanceContainer">날짜를 선택하고 조회 버튼을 눌러주세요.</div>
           </div>
           
-          <!-- 공지 탭 -->
-          <div id="tab_notices" class="tab-panel" style="display:none;">
-            <button class="primary" onclick="openNoticeForm()">새 공지 작성</button>
-            <div id="noticeListContainer">로딩 중...</div>
-          </div>
-
-          <!-- 설문 탭 -->
-          <div id="tab_surveys" class="tab-panel" style="display:none;">
-            <button class="primary" onclick="openSurveyForm()">새 설문 작성</button>
-            <div id="surveyListContainer">로딩 중...</div>
-          </div>
+          <!-- 공지/설문 기능 제거 -->
         </div>
       </div>
     </div>
@@ -314,8 +304,7 @@ async function openCourseManagementModal(course) {
 
   // 초기 데이터 로드
   await loadStudentList();
-  await loadNoticeList();
-  await loadSurveyList();
+  // 공지/설문 기능 제거됨
 }
 
 function closeCourseManagementModal() {
