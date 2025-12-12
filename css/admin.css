@@ -144,18 +144,9 @@ body {
     font-weight: 800;
     color: var(--text);
 }
-.user-chip {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 10px;
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  min-width: 160px;
-  justify-content: flex-end;
-  text-align: right;
-}
+.user-chip{display: flex; align-items: center; gap: 8px; padding: 8px 10px; min-width: 160px; justify-content: flex-end;}
+.user-chip span{flex: 1; text-align: center;}
+
 .user-avatar {
   width: 36px;
   height: 36px;
