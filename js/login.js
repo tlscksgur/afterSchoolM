@@ -248,6 +248,7 @@ function loginPage() {
       const password2 = document.getElementById("signup-password2").value.trim();
       const role = document.getElementById("signup-role").value;
       const studentIdNo = document.getElementById("signup-student-id").value.trim();
+      const verificationCode = verificationCodeInput ? verificationCodeInput.value.trim() : "";
 
       // 유효성 검사
       if (!name || !email || !password || !password2) {
@@ -300,7 +301,8 @@ function loginPage() {
             password,
             name,
             role: role, // "STUDENT" 또는 "TEACHER"
-            studentIdNo: role === "STUDENT" ? studentIdNo : null
+            studentIdNo: role === "STUDENT" ? studentIdNo : null,
+            verificationCode
           })
         });
 
