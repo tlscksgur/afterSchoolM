@@ -50,13 +50,22 @@
     <!-- 메인 -->
     <main class="main">
       <header class="header">
-        <h1>방과후 학교</h1>
-        <div class="user-chip">
-          <div style="display: flex;">
-            <strong id="studentName">학생</strong><br />
-            <small id="studentEmail"></small>
+        <div class="header-left">
+          <h1>?????</h1>
+          <p class="header-sub">?? ??</p>
+        </div>
+        <div class="header-actions">
+          <div class="search-box">
+            <span class="material-symbols-outlined">search</span>
+            <input id="globalSearch" type="text" placeholder="???/????? ??" />
           </div>
-          <span class="user-avatar" id="studentAvatar">학</span>
+          <div class="user-chip">
+            <div style="display: flex;">
+              <strong id="studentName">??</strong><br />
+              <small id="studentEmail"></small>
+            </div>
+            <span class="user-avatar" id="studentAvatar">?</span>
+          </div>
         </div>
       </header>
 
@@ -144,7 +153,7 @@
         </div>
 
         <div id="attendanceWarning" class="warn hidden">
-          출석률 미달로 신청할 수 없습니다. (저번학기 출석률 < 60%) </div>
+          출석률 미달로 신청할 수 없습니다. (저번학기 출석률 &lt; 60%) </div>
 
             <div class="modal-actions">
               <button id="btnToggleApply" class="primary">수강 신청</button>
@@ -155,7 +164,7 @@
     </div>
 
     <!-- Scripts -->
-    <script src="./js/api-config.js?v=deploy"></script>
+    <!-- <script src="./js/api-config.js?v=deploy"></script> -->
     <script src="./js/script.js?v=deploy"></script>
 </body>
 
