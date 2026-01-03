@@ -4,30 +4,36 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>방과후 학교 학생 대시보드</title>
+  <title>방과후학교 학생 포털</title>
 
-  <!-- Fonts & Icons -->
   <link
     href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Work+Sans:wght@400;500;700;900&display=swap"
     rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 
-  <!-- Styles -->
   <link rel="stylesheet" href="./css/student.css?v=2" />
 </head>
 
 <body>
   <div class="layout">
-    <!-- 사이드바 -->
     <aside class="sidebar">
-      <div>
+      <div class="sidebar-top">
         <div class="logo-area">
           <span class="material-symbols-outlined logo-icon">school</span>
           <div>
-            <h1>방과후 학교</h1>
+            <h1>방과후학교</h1>
             <p>학생 포털</p>
           </div>
         </div>
+
+        <div class="profile-card">
+          <div class="profile-avatar" id="studentAvatar">학</div>
+          <div class="profile-meta">
+            <strong id="studentNameSide">학생</strong>
+            <small id="studentEmailSide"></small>
+          </div>
+        </div>
+
         <nav class="menu">
           <a href="#" data-target="dashboard" class="active">
             <span class="material-symbols-outlined">dashboard</span><span>대시보드</span>
@@ -36,7 +42,7 @@
             <span class="material-symbols-outlined">list</span><span>전체 강좌</span>
           </a>
           <a href="#" data-target="apply">
-            <span class="material-symbols-outlined">checklist</span><span>내 신청 내역</span>
+            <span class="material-symbols-outlined">checklist</span><span>신청 내역</span>
           </a>
         </nav>
       </div>
@@ -47,44 +53,33 @@
       </div>
     </aside>
 
-    <!-- 메인 -->
     <main class="main">
       <header class="header">
         <div class="header-left">
-          <h1>?????</h1>
-          <p class="header-sub">?? ??</p>
+          <h1>안녕하세요, <span id="studentName">학생</span>님</h1>
+          <p class="header-sub">오늘도 즐겁게 학습해볼까요?</p>
         </div>
         <div class="header-actions">
           <div class="search-box">
             <span class="material-symbols-outlined">search</span>
-            <input id="globalSearch" type="text" placeholder="???/????? ??" />
-          </div>
-          <div class="user-chip">
-            <div style="display: flex;">
-              <strong id="studentName">??</strong><br />
-              <small id="studentEmail"></small>
-            </div>
-            <span class="user-avatar" id="studentAvatar">?</span>
+            <input id="globalSearch" type="text" placeholder="강좌명/강사명 검색" />
           </div>
         </div>
       </header>
 
-      <!-- 🟢 대시보드: 추천/인기 강좌 일부 -->
       <section class="page-section" id="dashboard">
         <div class="section-head">
           <h2>추천 강좌</h2>
-          <div class="hint">인기순 상위 강좌를 보여줘요</div>
+          <div class="hint">인기 순위 강좌를 확인해보세요.</div>
         </div>
         <div id="dashboardGrid" class="course-grid"></div>
       </section>
 
-      <!-- 🟡 전체 강좌 -->
       <section class="page-section hidden" id="allCourses">
         <div class="section-head">
           <h2>전체 강좌</h2>
         </div>
 
-        <!-- 검색/필터/정렬 툴바 -->
         <div class="toolbar">
           <div class="toolbar-row">
             <div class="toolbar-item grow">
@@ -100,7 +95,7 @@
                 <option value="name">강좌명</option>
                 <option value="teacher">교사명</option>
                 <option value="category">카테고리</option>
-                <option value="remain">여석 많은순</option>
+                <option value="remain">여석 많은 순</option>
               </select>
             </div>
           </div>
@@ -109,15 +104,13 @@
           <div id="categoryChips" class="chips"></div>
         </div>
 
-        <!-- 강좌 그리드 -->
         <div id="allCoursesGrid" class="course-grid"></div>
       </section>
 
-      <!-- 🟠 내 신청 내역 + 출석률 -->
       <section class="page-section hidden" id="apply">
         <div class="section-head">
-          <h2>내 신청 내역</h2>
-          <div class="hint">신청 상태와 출석률을 확인하세요</div>
+          <h2>신청 내역</h2>
+          <div class="hint">신청 상태와 출석률을 확인하세요.</div>
         </div>
         <div id="applyList"></div>
 
@@ -126,13 +119,9 @@
         </div>
         <div id="attendanceWrap" class="attendance-grid"></div>
       </section>
-
-      <!-- 🟣 설문조사 -->
-      
     </main>
   </div>
 
-  <!-- 강좌 상세 모달 -->
   <div id="courseModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="courseModalTitle">
     <div class="modal-card">
       <button class="modal-close" id="modalClose" aria-label="닫기"><span
@@ -153,19 +142,19 @@
         </div>
 
         <div id="attendanceWarning" class="warn hidden">
-          출석률 미달로 신청할 수 없습니다. (저번학기 출석률 &lt; 60%) </div>
+          출석률 미달로 신청할 수 없습니다. (직전학기 출석률 &lt; 60%)
+        </div>
 
-            <div class="modal-actions">
-              <button id="btnToggleApply" class="primary">수강 신청</button>
-              <button id="btnCancel" class="ghost">닫기</button>
-            </div>
+        <div class="modal-actions">
+          <button id="btnToggleApply" class="primary">수강 신청</button>
+          <button id="btnCancel" class="ghost">닫기</button>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Scripts -->
-    <script src="./js/api-config.js?v=deploy"></script>
-    <script src="./js/script.js?v=deploy"></script>
+  <script src="./js/api-config.js?v=deploy"></script>
+  <script src="./js/script.js?v=deploy"></script>
 </body>
 
 </html>
