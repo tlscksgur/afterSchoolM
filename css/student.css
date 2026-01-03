@@ -4,7 +4,6 @@
   --accent: #4f8df7;
   --accent-strong: #3a76e0;
   --accent-soft: #e7f0ff;
-  --accent-glow: rgba(79, 141, 247, 0.2);
   --ink: #0f172a;
   --muted: #64748b;
   --bg: #f5f7fb;
@@ -170,31 +169,31 @@ body {
   overflow-y: auto;
 }
 
-.header {
+.topbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 16px;
-  background: linear-gradient(120deg, #f8fbff, #eef4ff 55%, #e0ecff 100%);
+  background: var(--panel);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: 18px 22px;
   box-shadow: var(--shadow-sm);
 }
 
-.header-left h1 {
+.topbar-title h1 {
   margin: 0;
   font-size: 1.45rem;
   font-weight: 800;
 }
 
-.header-sub {
+.topbar-title p {
   margin: 6px 0 0;
   color: var(--muted);
   font-size: 0.9rem;
 }
 
-.header-actions {
+.topbar-actions {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -236,19 +235,6 @@ body {
   border-radius: var(--radius-lg);
   padding: 18px;
   box-shadow: var(--shadow-sm);
-  position: relative;
-  animation: rise 0.5s ease;
-}
-
-@keyframes rise {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 .section-head {
@@ -356,7 +342,7 @@ body {
 .course-card::before {
   content: "";
   display: block;
-  height: 92px;
+  height: 110px;
   background: linear-gradient(135deg, #dbeafe, #eff6ff 55%, #ffffff 100%);
 }
 
@@ -655,12 +641,12 @@ button {
     flex-wrap: wrap;
   }
 
-  .header {
+  .topbar {
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .header-actions {
+  .topbar-actions {
     width: 100%;
     justify-content: space-between;
   }
@@ -671,7 +657,7 @@ button {
     width: 100%;
   }
 
-  .header-actions {
+  .topbar-actions {
     flex-direction: column;
     align-items: stretch;
   }
