@@ -561,7 +561,7 @@ function drawBarChart(canvas, { present, absent, late }) {
     const x = startX + i * (barW + gap);
     const h = Math.round((H - 45) * (vals[i] / max));
     const y = (H - 25) - h;
-    ctx.fillStyle = "#3B82F6";
+    ctx.fillStyle = "#2f6fec";
     ctx.fillRect(x, y, barW, h);
     // 라벨
     ctx.fillStyle = "#6B7280";
