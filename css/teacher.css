@@ -1,283 +1,279 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+
 :root {
-  --brand: #22c55e;
-  --brand-weak: #dcfce7;
-  --brand-strong: #16a34a;
-  --bg: #f9fafb;
-  --text: #1f2937;
+  --accent: #22c55e;
+  --accent-strong: #16a34a;
+  --accent-soft: #dcfce7;
+  --ink: #1f2937;
   --muted: #6b7280;
+  --panel: #ffffff;
+  --panel-soft: #f0fdf4;
   --border: #e5e7eb;
+  --bg: #f6f7fb;
+  --shadow-sm: 0 8px 20px rgba(15, 23, 42, 0.08);
+  --shadow-md: 0 18px 38px rgba(15, 23, 42, 0.14);
+  --radius-lg: 20px;
+  --radius-md: 14px;
   --danger: #dc2626;
   --warn: #f59e0b;
-  --brand-blue: #3B82F6;
-  --brand-blue-light: #EFF6FF;
-  --brand-blue-dark: #2563EB;
-  --text-primary: #111827;
-  --text-secondary: #374151;
-  --text-tertiary: #6B7280;
-  --success: #16a34a;
-  --danger: #dc2626;
-  --surface-primary: #FFFFFF;
-  --surface-secondary: #F9FAFB;
-  --border-primary: #E5E7EB;
-  --chip: #f3f4f6;
 }
 
 * {
-  box-sizing: border-box
+  box-sizing: border-box;
 }
 
 html,
 body {
   margin: 0;
   padding: 0;
-  height: 100%
+  height: 100%;
 }
 
 body {
-  font-family: "Work Sans", "Noto Sans KR", sans-serif;
+  font-family: "Pretendard", "Noto Sans KR", "Work Sans", sans-serif;
   background: var(--bg);
-  color: var(--text);
+  color: var(--ink);
   font-size: 14px;
+  overflow-x: hidden;
 }
 
-/* 레이아웃 */
 .layout {
-  display: flex;
-  min-height: 100vh
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 20px;
+  min-height: 100vh;
+  padding: 20px;
 }
 
 .sidebar {
-  width: 220px;
-  background: var(--surface-primary);
-  padding: 16px;
-  box-shadow: 2px 0 6px rgba(0, 0, 0, .06);
+  background: var(--panel);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  padding: 18px;
+  box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
-  justify-content: space-between
+  justify-content: space-between;
 }
 
 .logo-area {
   display: flex;
   align-items: center;
-  gap: 8px
+  gap: 10px;
 }
 
 .logo-icon {
-  color: var(--brand);
-  font-size: 28px
+  color: var(--accent);
+  font-size: 28px;
 }
 
 .logo-area h1 {
   margin: 0;
-  font-size: 1.1rem;
-  font-weight: 800
+  font-size: 1.05rem;
+  font-weight: 800;
 }
 
 .logo-area p {
-  margin: 0;
+  margin: 2px 0 0;
   color: var(--muted);
-  font-size: .8rem
+  font-size: 0.8rem;
+}
+
+.profile-card {
+  margin-top: 18px;
+  padding: 12px;
+  border-radius: 16px;
+  background: var(--panel-soft);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 16px;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.profile-meta strong {
+  display: block;
+  font-size: 0.95rem;
+}
+
+.profile-meta small {
+  color: var(--muted);
 }
 
 .menu {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  margin-top: 16px
+  margin-top: 18px;
 }
 
 .menu-item {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px;
-  border-radius: 10px;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
   color: var(--muted);
   text-decoration: none;
-  transition: .2s
+  transition: 0.2s ease;
 }
 
 .menu-item:hover {
-  background: #f0fdf4;
-  color: var(--brand)
+  background: var(--accent-soft);
+  color: var(--accent-strong);
 }
 
 .menu-item.active {
-  background: var(--brand-weak);
-  color: var(--brand);
-  font-weight: 700
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 700;
+  box-shadow: inset 0 0 0 1px rgba(34, 197, 94, 0.2);
 }
 
 .sidebar-bottom {
   display: flex;
   justify-content: center;
-  margin-top: 10px
 }
 
 .logout-btn {
   border: 1px solid var(--border);
   background: #fff;
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 8px 12px;
   display: flex;
   align-items: center;
   gap: 6px;
-  cursor: pointer
+  cursor: pointer;
+  color: var(--muted);
 }
 
 .logout-btn:hover {
-  background: #f9fafb
+  background: var(--panel-soft);
+  color: var(--ink);
 }
 
 .main {
-  flex: 1;
-  padding: 20px
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px
+  gap: 16px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 18px 22px;
+  box-shadow: var(--shadow-sm);
 }
 
-.header h1 {
+.header-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-left h1 {
   margin: 0;
   font-size: 1.4rem;
-  font-weight: 800
-}
-
-.teacher-profile {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 10px;
-  background: #fff;
-  border: 1px solid var(--border-primary);
-  border-radius: 10px;
-  min-width: 0;
-}
-
-.who {
-  display: flex;
-  flex-direction: column
-}
-
-.who small {
-  color: var(--muted)
-}
-
-.avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: #bbf7d0;
-  color: var(--brand);
   font-weight: 800;
-  display: flex;
-  align-items: center;
-  justify-content: center
 }
 
-/* 섹션 공통 */
+.header-sub {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.header-sub {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.page-section {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  box-shadow: var(--shadow-sm);
+}
+
 .section-head {
   display: flex;
   justify-content: space-between;
-  align-items: center
+  align-items: center;
 }
 
 .section-head h2 {
-  margin: 0
+  margin: 0;
 }
 
-.tip {
-  color: var(--muted);
-  margin: 8px 0 12px
-}
-
-/* 버튼 */
-button {
-  font-family: inherit;
-  cursor: pointer
-}
-
-.primary {
-  padding: 10px 12px;
-  border-radius: 10px;
-  border: none;
-  background: var(--brand);
-  color: #fff;
-  font-weight: 700
-}
-
-.primary:hover {
-  background: var(--brand-strong)
-}
-
-.ghost {
-  padding: 8px 10px;
-  border-radius: 10px;
-  border: 1px solid var(--border);
-  background: #fff;
-  color: var(--text)
-}
-
-.ghost:hover {
-  background: #f9fafb
-}
-
-.danger {
-  background: var(--danger);
-  color: #fff;
-  border: none
-}
-
-.danger:hover {
-  filter: brightness(.95)
-}
-
-/* 강좌 리스트 */
 .course-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 12px
+  gap: 14px;
 }
 
 .course-card {
   background: #fff;
   border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 12px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, .05);
+  border-radius: 16px;
+  padding: 14px;
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
   display: flex;
   flex-direction: column;
-  gap: 8px
+  gap: 8px;
 }
 
 .course-title {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 8px
+  gap: 8px;
 }
 
 .course-title h3 {
   margin: 0;
-  font-size: 1rem
+  font-size: 1rem;
 }
 
 .badges {
   display: flex;
   gap: 6px;
-  flex-wrap: wrap
+  flex-wrap: wrap;
 }
 
 .badge {
-  background: #eef2ff;
-  color: #4f46e5;
-  padding: 3px 8px;
+  background: var(--panel-soft);
+  color: var(--accent-strong);
+  padding: 3px 10px;
   border-radius: 999px;
-  font-size: .75rem
+  font-size: 0.75rem;
 }
 
 .meta {
@@ -285,52 +281,94 @@ button {
   grid-template-columns: 1fr 1fr;
   gap: 6px;
   color: var(--muted);
-  font-size: .9rem
+  font-size: 0.9rem;
 }
 
 .card-actions {
   display: flex;
   gap: 6px;
   justify-content: flex-end;
-  margin-top: 6px
+  margin-top: 6px;
 }
 
 .status {
   padding: 3px 8px;
   border-radius: 999px;
-  font-size: .75rem;
-  font-weight: 700
+  font-size: 0.75rem;
+  font-weight: 700;
 }
 
 .status.approved {
   background: #dcfce7;
-  color: #166534
+  color: #166534;
 }
 
 .status.pending {
   background: #fef9c3;
-  color: #854d0e
+  color: #854d0e;
 }
 
 .status.rejected {
   background: #fee2e2;
-  color: #991b1b
+  color: #991b1b;
 }
 
 .status.ended {
   background: #e5e7eb;
-  color: #374151
+  color: #374151;
 }
 
-/* 폼 */
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.primary {
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.primary:hover {
+  background: var(--accent-strong);
+}
+
+.ghost {
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--ink);
+}
+
+.ghost:hover {
+  background: var(--panel-soft);
+}
+
+.danger {
+  background: var(--danger);
+  color: #fff;
+  border: none;
+}
+
+.danger:hover {
+  filter: brightness(0.95);
+}
+
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px
+  gap: 10px;
 }
 
 .form-grid .full {
-  grid-column: 1/-1
+  grid-column: 1/-1;
 }
 
 .input,
@@ -339,64 +377,60 @@ textarea {
   width: 100%;
   padding: 10px;
   border: 1px solid var(--border);
-  border-radius: 10px;
-  background: #fff
+  border-radius: 12px;
+  background: #fff;
 }
 
 label {
   display: block;
   margin-bottom: 6px;
   color: var(--muted);
-  font-size: .85rem
+  font-size: 0.85rem;
 }
 
-/* 탭 */
 .tabs {
   display: flex;
   gap: 6px;
-  margin-bottom: 10px
+  margin-bottom: 10px;
 }
 
 .tab {
   border: 1px solid var(--border);
   background: #fff;
   border-radius: 999px;
-  padding: 8px 12px
+  padding: 8px 12px;
 }
 
 .tab.active {
-  background: var(--brand-weak);
-  color: var(--brand);
-  border-color: #c7f7d6
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  border-color: rgba(34, 197, 94, 0.3);
 }
 
-/* 테이블 */
 table {
   width: 100%;
-  border-collapse: collapse
+  border-collapse: collapse;
 }
 
 th,
 td {
   border-bottom: 1px solid var(--border);
   padding: 8px;
-  text-align: left
+  text-align: left;
 }
 
 thead {
-  background: #fafafa
+  background: #f9fafb;
 }
 
-/* 메모리스트/공지/설문 리스트 형태 재활용 */
 .list-item {
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: 12px;
   background: #fff;
   padding: 10px;
-  margin-bottom: 8px
+  margin-bottom: 8px;
 }
 
-/* 모달 (강제 적용) - t-modal 접두사 사용 */
 .t-modal-backdrop,
 .t-modal-overlay {
   position: fixed !important;
@@ -404,25 +438,26 @@ thead {
   left: 0 !important;
   width: 100% !important;
   height: 100% !important;
-  background: rgba(0, 0, 0, 0.5) !important;
+  background: rgba(15, 23, 42, 0.45) !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   z-index: 9999 !important;
   padding: 16px !important;
+  backdrop-filter: blur(4px);
 }
 
 .t-modal-card,
 .t-modal-content {
   background: #fff !important;
-  border-radius: 14px !important;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+  border-radius: 18px !important;
+  box-shadow: var(--shadow-md) !important;
   padding: 24px !important;
   width: min(960px, 96vw) !important;
   max-height: 90vh !important;
   overflow-y: auto !important;
   position: relative !important;
-  border: 1px solid #e5e7eb !important;
+  border: 1px solid var(--border) !important;
 }
 
 .t-modal-content.large {
@@ -435,7 +470,7 @@ thead {
   justify-content: space-between !important;
   align-items: center !important;
   margin-bottom: 20px !important;
-  border-bottom: 1px solid #e5e7eb !important;
+  border-bottom: 1px solid var(--border) !important;
   padding-bottom: 16px !important;
 }
 
@@ -444,7 +479,7 @@ thead {
   margin: 0 !important;
   font-size: 1.25rem !important;
   font-weight: 700 !important;
-  color: #111827 !important;
+  color: var(--ink) !important;
 }
 
 .t-modal-body {
@@ -458,7 +493,7 @@ thead {
   justify-content: flex-end !important;
   margin-top: 24px !important;
   padding-top: 16px !important;
-  border-top: 1px solid #e5e7eb !important;
+  border-top: 1px solid var(--border) !important;
 }
 
 .t-close-x,
@@ -469,7 +504,7 @@ thead {
   cursor: pointer !important;
   font-size: 1.5rem !important;
   line-height: 1 !important;
-  color: #6b7280 !important;
+  color: var(--muted) !important;
   padding: 4px !important;
   border-radius: 4px !important;
 }
@@ -478,5 +513,31 @@ thead {
 .t-modal-close:hover,
 .t-close-btn:hover {
   background-color: #f3f4f6 !important;
-  color: #111827 !important;
+  color: var(--ink) !important;
+}
+
+@media (max-width: 1024px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .menu {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 640px) {
+  .course-list {
+    grid-template-columns: 1fr;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
 }

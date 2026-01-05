@@ -561,7 +561,7 @@ function drawBarChart(canvas, { present, absent, late }) {
     const x = startX + i * (barW + gap);
     const h = Math.round((H - 45) * (vals[i] / max));
     const y = (H - 25) - h;
-    ctx.fillStyle = "#3B82F6";
+    ctx.fillStyle = "#2f6fec";
     ctx.fillRect(x, y, barW, h);
     // 라벨
     ctx.fillStyle = "#6B7280";
@@ -928,9 +928,19 @@ init();
   const user = getCurrentUser();
   if (!user) return;
   if (document.getElementById('studentName')) {
-    document.getElementById('studentName').textContent = user.name || '학생';
+    document.getElementById('studentName').textContent = user.name || '??';
   }
   if (document.getElementById('studentEmail')) {
     document.getElementById('studentEmail').textContent = user.email || '';
+  }
+  if (document.getElementById('studentNameSide')) {
+    document.getElementById('studentNameSide').textContent = user.name || '??';
+  }
+  if (document.getElementById('studentEmailSide')) {
+    document.getElementById('studentEmailSide').textContent = user.email || '';
+  }
+  if (document.getElementById('studentAvatar')) {
+    const initial = (user.name || '??').slice(0, 1);
+    document.getElementById('studentAvatar').textContent = initial;
   }
 })();
